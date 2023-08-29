@@ -197,6 +197,27 @@ if (command === 'unban') {
     message.channel.send({ embeds: [embed] });
   }
 
+  if (command === 'clear') {
+    const numToDelete = parseInt(argument[0]);
+    if (!message.member.permissions.has(PermissionsBitField.Flags.ManageMessages)) {
+        return message.channel.send("You don't have permission to manage messages.");
+    }
+    if (isNaN(numToDelete) || numToDelete <= 0) {
+        return message.channel.send("Please provide a valid number of messages to delete.");
+    }
+    message.channel.bulkDelete(numToDelete + 1)
+        .then(() => {
+            message.channel.send(`Cleared ${numToDelete} messages.`)
+                .then(msg => {
+                    setTimeout(() => msg.delete(), 5000);
+                });
+        })
+        .catch(error => {
+            console.error('Error clearing messages:', error);
+            message.channel.send("An error occurred while clearing messages.");
+        });
+  }
+
   //COMMANDS
 
   if (command === 'ping') {
@@ -219,6 +240,8 @@ if (command === 'unban') {
   
     executePing();
   }
+
+  
 
 
 
