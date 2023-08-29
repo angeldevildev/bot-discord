@@ -168,4 +168,33 @@ if (command === 'unban') {
       })
 }
 
+  if (command === 'kick') {
+    const member = message.mentions.members.first() || message.guild.members.cache.get(argument[0]) || message.guild.members.cache.find(x => x.user.username.toLowerCase() === argument.slice(0).join(" ") || x.user.username === argument[0]);
+
+    if (!message.member.permissions.has(PermissionsBitField.Flags.KickMembers)) return message.channel.send("You don't have permission to kick people in this server!");
+    if (!member) return message.channel.send("You must specify someone in this command!");
+    if (message.member === member) return message.channel.send("You cannot kick yourself");
+    if (!member.kickable) return message.channel.send("You cannot kick this person!");
+
+    let reason = argument.slice(1).join(" ") || "No reason given.";
+
+    const embed = new EmbedBuilder()
+        .setColor("Orange")
+        .setDescription(`:boot: ${member.user} has been **kicked** | ${reason}`);
+
+    const dmEmbed = new EmbedBuilder()
+        .setColor("Orange")
+        .setDescription(`:boot: You were **kicked** from ${message.guild.name} | ${reason}`);
+
+    member.send({ embeds: [dmEmbed] }).catch(err => {
+        console.log(`${member.user.tag} has their DMs off and cannot receive the kick message.`);
+    });
+
+    member.kick(reason).catch(err => {
+        message.channel.send("There was an error kicking this member");
+    });
+
+    message.channel.send({ embeds: [embed] });
+  }
+
 })
