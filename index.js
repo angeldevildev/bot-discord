@@ -35,7 +35,7 @@ const client = new Client({
     const cmd = messageArray[0];
 
 
-    //COMMANDS
+    //MODERATION COMMANDS
 
     if (command === 'test'){
 
@@ -196,5 +196,31 @@ if (command === 'unban') {
 
     message.channel.send({ embeds: [embed] });
   }
+
+  //COMMANDS
+
+  if (command === 'ping') {
+    const executePing = async () => {
+        const startTime = Date.now();
+        const pingMessage = await message.channel.send("Pinging...");
+
+        const endTime = Date.now();
+        const ping = endTime - startTime;
+
+        const apiLatency = Math.round(message.client.ws.ping);
+
+        const embed = new EmbedBuilder()
+            .setColor("Green")
+            .setDescription(`🏓 Pong! API Latency: ${apiLatency}ms | Bot Latency: ${ping}ms`);
+
+        await pingMessage.edit({ embeds: [embed] });
+    };
+
+    executePing();
+}
+
+
+
+
 
 })
