@@ -43,4 +43,34 @@ const client = new Client({
     
         message.channel.send("Bot is working!");
     }
+
+    if (command === 'ban') {
+      const member = message.mentions.members.first() || message.guild.members.cache.get(argument[0]) || message.guild.members.cache.find(x => x.user.username.toLowerCase() === argument.slice(0).join(" " || x.user.username === argument[0]));
+  
+      if (!message.member.permissions.has(PermissionsBitField.Flags.BanMembers)) return message.channel.send("You don't have permission to ban people in this server!");
+      if (!member) return message.channel.send("You must specify someone in this command!");
+      if (message.member === member) return message.channel.send("You cannot ban yourself");
+      if (!member.kickable) return message.channel.send("You cannot ban this person!");
+  
+  
+      let reason = argument.slice(1).join(" ") || "No reason given."
+  
+      const embed = new EmbedBuilder()
+      .setColor("Blue")
+      .setDescription(`:white_check_mark: ${member.user} has been **banned** | ${reason}`)
+  
+      const dmEmbed = new EmbedBuilder()
+      .setColor("Blue")
+      .setDescription(`:white_check_mark: You were **banned** from ${message.guild.name} | ${reason}`)
+  
+      member.send({ embeds: [dmEmbed]}).catch(err => {
+          console.log(`${member.user} has their DMs off and cannot receive the ban message.`);
+      })
+  
+      member.ban().catch(err => {
+          message.channel.send("There was an error banning this member");
+      })
+  
+      message.channel.send({ embeds: [embed] });
+  }
  })
