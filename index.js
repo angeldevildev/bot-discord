@@ -288,7 +288,22 @@ if (command === 'unban') {
   }
 
   
-
+  if (command === 'quote') {
+   
+    const quotes = [
+        "Life is what happens while you are busy making other plans. - John Lennon.",
+        "Success is not final, failure is not fatal: it is the courage to continue that counts. - Winston Churchill.",
+        "The best way to predict the future is to create it. - Abraham Lincoln.",
+        "It is not the load that breaks you, it is the way you carry it. - Lou Holtz.",
+        "Happiness is not something already made. It comes from your actions. - Dalai Lama"
+    ];
+  
+    // Seleziona una citazione casuale dall'array
+    const randomQuote = quotes[Math.floor(Math.random() * quotes.length)];
+  
+    // Invia la citazione al canale
+    message.channel.send(`"${randomQuote}"`);
+  }
 
 
 
