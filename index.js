@@ -49,7 +49,15 @@ const client = new Client({
     if (command === 'ban') {
       const member = message.mentions.members.first() || message.guild.members.cache.get(argument[0]) || message.guild.members.cache.find(x => x.user.username.toLowerCase() === argument.slice(0).join(" " || x.user.username === argument[0]));
   
-      if (!message.member.permissions.has(PermissionsBitField.Flags.BanMembers)) return message.channel.send("You don't have permission to ban people in this server!");
+      if (!message.member.permissions.has(PermissionsBitField.Flags.BanMembers)) {
+        const embed = new EmbedBuilder()
+        .setColor('Red')
+        .setTitle('No Permission')
+        .setDescription('You do not have permission to run this command.')
+    
+        message.channel.send({ embeds: [embed] });
+        return; // Aggiunto il return per uscire dalla funzione
+    }
       if (!member) return message.channel.send("You must specify someone in this command!");
       if (message.member === member) return message.channel.send("You cannot ban yourself");
       if (!member.kickable) return message.channel.send("You cannot ban this person!");
@@ -83,7 +91,15 @@ const client = new Client({
     const timeUser = message.mentions.members.first() || message.guild.members.cache.get(argument[0]) || message.guild.members.cache.find(x => x.user.username.toLowerCase() === argument.slice(0).join(" " || x.user.username === argument[0]));
     const duration = argument[1];
 
-    if (!message.member.permissions.has(PermissionsBitField.Flags.ModerateMembers)) return message.channel.send("You don't have permissions to time people out this server!");
+    if (!message.member.permissions.has(PermissionsBitField.Flags.ModerateMembers)) {
+      const embed = new EmbedBuilder()
+      .setColor('Red')
+      .setTitle('No Permission')
+      .setDescription('You do not have permission to run this command.')
+  
+      message.channel.send({ embeds: [embed] });
+      return; // Aggiunto il return per uscire dalla funzione
+  }
     if (!timeUser) return message.channel.send("Please specify a member to timeout.");
     if (message.member === timeUser) return message.channel.send("You cannot time yourself out!");
     if (!duration) return message.channel.send("Please specify a duration in which you want the member to be timed out for.");
@@ -117,7 +133,15 @@ const client = new Client({
 if (command === 'untimeout') {
   const timeUser = message.mentions.members.first() || message.guild.members.cache.get(argument[0]) || message.guild.members.find(x => x.user.username.toLowerCase() === argument.slice(0).join(" " || x.user.username === argument[0]));
 
-  if (!message.member.permissions.has(PermissionsBitField.Flags.ModerateMembers)) return message.channel.send("You don't have permission to untimeout peopele out this server.");
+  if (!message.member.permissions.has(PermissionsBitField.Flags.ModerateMembers)) {
+    const embed = new EmbedBuilder()
+    .setColor('Red')
+    .setTitle('No Permission')
+    .setDescription('You do not have permission to run this command.')
+
+    message.channel.send({ embeds: [embed] });
+    return; // Aggiunto il return per uscire dalla funzione
+}
   if (!timeUser) return message.channel.send("Please specify a member to untimeout");
   if (message.member === timeUser) return message.channel.send("You cannot untime yourself out.");
   if (!timeUser.kickable) return message.channel.send("You cannot time this person out.");
@@ -143,7 +167,15 @@ if (command === 'untimeout') {
 
 if (command === 'unban') {
 
-  if (!message.member.permissions.has(PermissionsBitField.Flags.ModerateMembers)) return message.channel.send("You don't have permission to untimeout peopele out this server.");
+  if (!message.member.permissions.has(PermissionsBitField.Flags.ModerateMembers)) {
+    const embed = new EmbedBuilder()
+    .setColor('Red')
+    .setTitle('No Permission')
+    .setDescription('You do not have permission to run this command.')
+
+    message.channel.send({ embeds: [embed] });
+    return; // Aggiunto il return per uscire dalla funzione
+}
 
   const member = args[0];
 
@@ -171,7 +203,15 @@ if (command === 'unban') {
   if (command === 'kick') {
     const member = message.mentions.members.first() || message.guild.members.cache.get(argument[0]) || message.guild.members.cache.find(x => x.user.username.toLowerCase() === argument.slice(0).join(" ") || x.user.username === argument[0]);
 
-    if (!message.member.permissions.has(PermissionsBitField.Flags.KickMembers)) return message.channel.send("You don't have permission to kick people in this server!");
+    if (!message.member.permissions.has(PermissionsBitField.Flags.KickMembers)) {
+      const embed = new EmbedBuilder()
+      .setColor('Red')
+      .setTitle('No Permission')
+      .setDescription('You do not have permission to run this command.')
+  
+      message.channel.send({ embeds: [embed] });
+      return; // Aggiunto il return per uscire dalla funzione
+  }
     if (!member) return message.channel.send("You must specify someone in this command!");
     if (message.member === member) return message.channel.send("You cannot kick yourself");
     if (!member.kickable) return message.channel.send("You cannot kick this person!");
@@ -200,8 +240,14 @@ if (command === 'unban') {
   if (command === 'clear') {
     const numToDelete = parseInt(argument[0]);
     if (!message.member.permissions.has(PermissionsBitField.Flags.ManageMessages)) {
-        return message.channel.send("You don't have permission to manage messages.");
-    }
+      const embed = new EmbedBuilder()
+      .setColor('Red')
+      .setTitle('No Permission')
+      .setDescription('You do not have permission to run this command.')
+  
+      message.channel.send({ embeds: [embed] });
+      return; // Aggiunto il return per uscire dalla funzione
+  }
     if (isNaN(numToDelete) || numToDelete <= 0) {
         return message.channel.send("Please provide a valid number of messages to delete.");
     }
