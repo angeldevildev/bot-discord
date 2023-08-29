@@ -44,6 +44,8 @@ const client = new Client({
         message.channel.send("Bot is working!");
     }
 
+    // BAN COMMAND
+
     if (command === 'ban') {
       const member = message.mentions.members.first() || message.guild.members.cache.get(argument[0]) || message.guild.members.cache.find(x => x.user.username.toLowerCase() === argument.slice(0).join(" " || x.user.username === argument[0]));
   
@@ -73,6 +75,8 @@ const client = new Client({
   
       message.channel.send({ embeds: [embed] });
   }
+
+  //TIMEOUT COMMAND
 
   if(command === 'timeout'){
 
@@ -106,5 +110,34 @@ const client = new Client({
     timeUser.send({ embeds: [dmEmbed] }).catch(err => {
         return;
     });
+}
+
+//untimeout command
+
+if (command === 'untimeout') {
+  const timeUser = message.mentions.members.first() || message.guild.members.cache.get(argument[0]) || message.guild.members.find(x => x.user.username.toLowerCase() === argument.slice(0).join(" " || x.user.username === argument[0]));
+
+  if (!message.member.permissions.has(PermissionsBitField.Flags.ModerateMembers)) return message.channel.send("You don't have permission to untimeout peopele out this server.");
+  if (!timeUser) return message.channel.send("Please specify a member to untimeout");
+  if (message.member === timeUser) return message.channel.send("You cannot untime yourself out.");
+  if (!timeUser.kickable) return message.channel.send("You cannot time this person out.");
+
+  let reason = argument.slice(1).join(" ") || 'No reason given.';
+
+  const embed = new EmbedBuilder()
+  .setColor("Blue")
+  .setDescription(`:white_check_mark: ${timeUser.user} has been **untimed out** | ${reason}`)
+
+  const dmEmbed = new EmbedBuilder()
+  .setColor("Blue")
+  .setDescription(`:white_check_mark: You have been **untimed out** in ${message.guild.name} | ${reason}`)
+
+  timeUser.timeout(null, reason);
+
+  message.channel.send({ embeds: [embed] });
+
+  timeUser.send({ embeds: [dmEmbed] }).catch(err => {
+      return;
+  });
 }
  })
