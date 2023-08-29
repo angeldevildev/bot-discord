@@ -73,4 +73,38 @@ const client = new Client({
   
       message.channel.send({ embeds: [embed] });
   }
+
+  if(command === 'timeout'){
+
+    const timeUser = message.mentions.members.first() || message.guild.members.cache.get(argument[0]) || message.guild.members.cache.find(x => x.user.username.toLowerCase() === argument.slice(0).join(" " || x.user.username === argument[0]));
+    const duration = argument[1];
+
+    if (!message.member.permissions.has(PermissionsBitField.Flags.ModerateMembers)) return message.channel.send("You don't have permissions to time people out this server!");
+    if (!timeUser) return message.channel.send("Please specify a member to timeout.");
+    if (message.member === timeUser) return message.channel.send("You cannot time yourself out!");
+    if (!duration) return message.channel.send("Please specify a duration in which you want the member to be timed out for.");
+    if (duration > 604800) return message.channel.send("Please specify a duration between 1 & 604800 (one week) seconds.");
+
+    if (isNaN(duration)) {
+        return message.channel.send("Please specify a valid number in the duration section.");
+    }
+
+    let reason = argument.slice(2).join(" ") || 'No reason given.';
+
+    const embed = new EmbedBuilder()
+    .setColor("Blue")
+    .setDescription(`:white_check_mark: ${timeUser.user} has been **timed out** for ${duration} seconds | ${reason}`)
+
+    const dmEmbed = new EmbedBuilder()
+    .setColor("Blue")
+    .setDescription(`:white_check_mark: You have been **timed out** in ${message.guild.name} for ${duration} seconds | ${reason}`)
+
+    timeUser.timeout(duration * 1000, reason);
+
+    message.channel.send({ embeds: [embed] });
+
+    timeUser.send({ embeds: [dmEmbed] }).catch(err => {
+        return;
+    });
+}
  })
