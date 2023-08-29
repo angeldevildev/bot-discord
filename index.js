@@ -56,7 +56,7 @@ const client = new Client({
         .setDescription('You do not have permission to run this command.')
     
         message.channel.send({ embeds: [embed] });
-        return; // Aggiunto il return per uscire dalla funzione
+        return; 
     }
       if (!member) return message.channel.send("You must specify someone in this command!");
       if (message.member === member) return message.channel.send("You cannot ban yourself");
@@ -98,7 +98,7 @@ const client = new Client({
       .setDescription('You do not have permission to run this command.')
   
       message.channel.send({ embeds: [embed] });
-      return; // Aggiunto il return per uscire dalla funzione
+      return; 
   }
     if (!timeUser) return message.channel.send("Please specify a member to timeout.");
     if (message.member === timeUser) return message.channel.send("You cannot time yourself out!");
@@ -140,7 +140,7 @@ if (command === 'untimeout') {
     .setDescription('You do not have permission to run this command.')
 
     message.channel.send({ embeds: [embed] });
-    return; // Aggiunto il return per uscire dalla funzione
+    return; 
 }
   if (!timeUser) return message.channel.send("Please specify a member to untimeout");
   if (message.member === timeUser) return message.channel.send("You cannot untime yourself out.");
@@ -174,7 +174,7 @@ if (command === 'unban') {
     .setDescription('You do not have permission to run this command.')
 
     message.channel.send({ embeds: [embed] });
-    return; // Aggiunto il return per uscire dalla funzione
+    return; 
 }
 
   const member = args[0];
@@ -210,7 +210,7 @@ if (command === 'unban') {
       .setDescription('You do not have permission to run this command.')
   
       message.channel.send({ embeds: [embed] });
-      return; // Aggiunto il return per uscire dalla funzione
+      return; 
   }
     if (!member) return message.channel.send("You must specify someone in this command!");
     if (message.member === member) return message.channel.send("You cannot kick yourself");
@@ -246,7 +246,7 @@ if (command === 'unban') {
       .setDescription('You do not have permission to run this command.')
   
       message.channel.send({ embeds: [embed] });
-      return; // Aggiunto il return per uscire dalla funzione
+      return; 
   }
     if (isNaN(numToDelete) || numToDelete <= 0) {
         return message.channel.send("Please provide a valid number of messages to delete.");
