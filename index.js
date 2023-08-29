@@ -140,4 +140,32 @@ if (command === 'untimeout') {
       return;
   });
 }
- })
+
+if (command === 'unban') {
+
+  if (!message.member.permissions.has(PermissionsBitField.Flags.ModerateMembers)) return message.channel.send("You don't have permission to untimeout peopele out this server.");
+
+  const member = args[0];
+
+  let reason = argument.slice(1).join(" ") || 'No reason given.';
+
+  const embed = new EmbedBuilder()
+  .setColor("Blue")
+  .setDescription(`:white_check_mark: <@${member}> has been **unbanned** | ${reason}`)
+
+  message.guild.bans.fetch()
+      .then(async bans => {
+          if (bans.size == 0) return message.channel.send(`There is no one banned from this server.`);
+
+          let bannedID = bans.find(ban => ban.user.id == member);
+          if (!bannedID) return await message.channel.send(`The ID stated is not banned from this server.`);
+
+          await message.guild.bans.remove(member, reason).catch(err => {
+              return message.channel("There was an error unbanning this member");
+          }) 
+
+          await message.channel.send({ embeds: [embed] });
+      })
+}
+
+})
